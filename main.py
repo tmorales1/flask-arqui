@@ -18,7 +18,7 @@ def add_msg(msgs, msg):
     pickle.dump(msgs, open('data.p', 'wb'))
 
 def get_msgs(msgs, offset=0, per_page=5):
-    if offset + per_page < len(msgs):
+    if offset*5 + per_page < len(msgs):
         final = offset*5 + per_page
     else:
         final = len(msgs)
