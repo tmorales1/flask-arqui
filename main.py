@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import datetime
 from flask_paginate import Pagination, get_page_args
 import pickle
-pickle.dump([], open('data.p', 'wb'))
+
 try:
     msgs = pickle.load(open('data.p', 'rb'))
 except:
