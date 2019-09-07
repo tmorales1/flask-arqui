@@ -2,14 +2,43 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Flask Tutorial</title>
+    <link rel="stylesheet" type="text/css" href="./static/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <title>Chat App</title>
   </head>
   <body>
     {% extends "template.html" %}
     {% block content %}
-
-    <h1> My First Try Using Flask </h1>
-    <p> Flask is Fun </p>
+    <h1> Chat App </h1>
+    <h3> Escriba sus mensajes... </h3>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Mensaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for msg in msgs %}
+            <tr>
+              <td>{{ loop.index + (page - 1) * per_page }}</td>
+              <td>
+                <div class="container">
+                  <p>{{ msg[0] }}</p>
+                  <span class="time-right">{{ msg[1] }}</span>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {{ pagination.links }}
+    <form method="POST">
+      <input name="text">
+      <input type="submit">
+    </form>
 
     {% endblock %}
   </body>
