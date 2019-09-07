@@ -17,6 +17,7 @@ def add_msg(msgs, msg):
     pickle.dump(msgs, open('data.p', 'wb'))
 
 def get_msgs(offset=0, per_page=5):
+    print(msgs[offset: offset + per_page])
     return msgs[offset: offset + per_page]
 
 app = Flask(__name__)
@@ -25,13 +26,14 @@ app = Flask(__name__)
 def home():
     try:
         msgs = pickle.load(open('data.p', 'rb'))
+        print(msgs)
     except:
         msgs = []
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
     print(page, per_page, offset)
     total = len(msgs)
-    pagination_msgs = get_msgs(offset=0, per_page=5)
+    pagination_msgs = get_msgs(offset=page-1, per_page=5)
     pagination = Pagination(page=page, per_page=5, total=total,
                             css_framework='bootstrap4')
     return render_template('home.html', msgs=pagination_msgs,
@@ -50,7 +52,7 @@ def my_form_post():
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
     total = len(msgs)
-    pagination_msgs = get_msgs(offset=0, per_page=5)
+    pagination_msgs = get_msgs(offset=page-1, per_page=5)
     pagination = Pagination(page=page, per_page=5, total=total,
                             css_framework='bootstrap4')
     return render_template('home.html', msgs=pagination_msgs,
