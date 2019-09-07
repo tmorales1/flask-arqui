@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request
 import datetime
 from flask_paginate import Pagination, get_page_args
-
-msgs = []
+import pickle
+pickle.dump([], open('data.p', 'wb'))
+try:
+    msgs = pickle.load(open('data.p', 'rb'))
+except:
+    msgs = []
 
 def add_msg(msgs, msg):
     if len(msgs) < 100:
@@ -10,6 +14,7 @@ def add_msg(msgs, msg):
     else:
         del msgs[0]
         msgs.append(msg)
+    pickle.dump(msgs, open('data.p', 'wb'))
 
 def get_msgs(offset=0, per_page=5):
     return msgs[offset: offset + per_page]
@@ -18,6 +23,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    try:
+        msgs = pickle.load(open('data.p', 'rb'))
+    except:
+        msgs = []
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
     print(page, per_page, offset)
