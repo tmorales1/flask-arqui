@@ -41,6 +41,10 @@ def home():
 
 @app.route('/', methods=['POST'])
 def my_form_post():
+    try:
+        msgs = pickle.load(open('data.p', 'rb'))
+    except:
+        msgs = []
     text = request.form['text']
     add_msg(msgs, (text, datetime.datetime.now()))
     page, per_page, offset = get_page_args(page_parameter='page',
